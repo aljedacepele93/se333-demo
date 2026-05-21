@@ -18,3 +18,7 @@ application-local.properties
 # ── macOS / Windows clutter ───────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# IDE generated files
+.bloop/
+.metals/
