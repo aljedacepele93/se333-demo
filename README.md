@@ -17,9 +17,120 @@ Your job: extend it into something useful.
 6. [Test the API manually](#6-test-the-api-manually)  
 7. [Code walkthrough](#7-code-walkthrough)  
 8. [Extension exercises](#8-extension-exercises)  
-9. [Troubleshooting](#9-troubleshooting)  
+9. [Troubleshooting](#9-troubleshooting)
+10.[Final Project Additions](#final-project-additions) 
 
 ---
+
+
+Main Extension: Safety Filter
+
+The main feature I added is SafetyFilterService.
+
+File:
+
+src/main/java/edu/depaul/se331/chatbot/service/SafetyFilterService.java
+
+This service checks user input before the message is sent to the LLM. If a message contains unsafe keywords related to hacking, malware, or illegal activity, the request is blocked.
+
+This demonstrates an important part of LLM-enabled system design: user prompts should be checked for safety before reaching the model.
+
+Automated Tests
+
+Unit tests were added for the safety filter.
+
+File:
+
+src/test/java/edu/depaul/se331/chatbot/service/SafetyFilterServiceTest.java
+
+Run tests with:
+
+mvn test
+
+Expected result:
+
+Tests run: 4
+Failures: 0
+Errors: 0
+BUILD SUCCESS
+Coverage Metrics
+
+JaCoCo was added to provide measurable test coverage feedback.
+
+Run:
+
+mvn clean test
+
+Open the coverage report:
+
+open target/site/jacoco/index.html
+
+The coverage report provides quantitative feedback about tested and untested code. This supports the iterative workflow of code, tests, coverage, fixes, and metrics.
+
+MCP Testing Agent
+
+This project uses an MCP-based testing workflow.
+
+Important files:
+
+.vscode/mcp.json
+.github/prompts/tester.prompt.md
+
+The MCP server is configured through VS Code and exposes tools that can be used by the AI testing agent. The tester prompt explains how the agent should generate tests, run tests, analyze failures, use coverage feedback, and follow a Git-based workflow.
+
+Example MCP tool test:
+
+Use the MCP add tool from se333-mcp-server to calculate 12 + 8.
+
+Expected result:
+
+20
+LLM Testing Strategy
+
+Traditional unit tests are not enough for LLM-enabled systems because LLM responses can vary. This project includes a separate LLM testing strategy document.
+
+File:
+
+docs/LLM_TESTING_STRATEGY.md
+
+This document discusses:
+
+response correctness
+helpfulness
+safety
+robustness
+hallucinations
+prompt injection
+evaluation workflows
+Reflection Report
+
+The final reflection report is included here:
+
+docs/Final_SSE_Project_Word.pdf
+Git Workflow
+
+The project was developed using sprint branches and meaningful commits.
+
+Important branches:
+
+sprint1
+sprint2
+feature/safety-filter
+
+Important development progression:
+
+MCP setup
+Base chatbot application
+Safety filter feature
+Unit tests
+LLM testing strategy documentation
+JaCoCo coverage reporting
+Reflection report
+
+This makes the project auditable through GitHub history.
+
+
+
 
 ## 1. What you get
 
@@ -100,7 +211,7 @@ Maven downloads dependencies on first run (~30 s).
 Once you see `Started ChatbotApplication`, open:
 
 ```
-http://localhost:8080
+http://localhost:8000
 ```
 
 You should see the chat UI.  
@@ -141,19 +252,19 @@ You can test without the UI using `curl` or any HTTP client
 
 **Send a message:**
 ```bash
-curl -X POST http://localhost:8080/api/chat \
+curl -X POST http://localhost:8000/api/chat \
      -H "Content-Type: application/json" \
      -d '{"message": "What is a Java interface?"}'
 ```
 
 **Clear history:**
 ```bash
-curl -X DELETE http://localhost:8080/api/chat/history
+curl -X DELETE http://localhost:8000/api/chat/history
 ```
 
 **Inspect history:**
 ```bash
-curl http://localhost:8080/api/chat/history
+curl http://localhost:8000/api/chat/history
 ```
 
 ---
@@ -287,3 +398,5 @@ HTTP request/response in the console:
 ```properties
 logging.level.org.springframework.web.client=DEBUG
 ```
+
+
